@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Hero from "../components/Hero";
 import ThreePillars from "../components/ThreePillars";
+import SimulatedRound from "../components/SimulatedRound";
 import VRFEngine from "../components/VRFEngine";
 import TokenomicsFlow from "../components/TokenomicsFlow";
 import DualPools from "../components/DualPools";
@@ -13,6 +14,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <ThreePillars />
+      <SimulatedRound />
       <VRFEngine />
       <TokenomicsFlow />
       <DualPools />
