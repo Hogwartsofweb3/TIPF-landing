@@ -1,84 +1,443 @@
 .section {
   width: 100%;
-  padding: 80px 24px;
-  background-color: var(--color-bg-panel);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  border-left: none;
-  border-right: none;
-  text-align: center;
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 100px 24px;
+  background-color: var(--color-bg-void);
+  border-bottom: 1px solid var(--color-border-subtle);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 80px;
 }
 
-.label {
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 48px;
+  align-items: center;
+}
+
+/* Left Column: Vault Visual */
+.vaultColumn {
+  grid-column: span 6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.visualWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vaultContainer {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  z-index: 2;
+  transition: transform 150ms ease;
+}
+
+.vaultSvg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.6));
+}
+
+.pulse {
+  animation: pulseVaultAnim 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pulseVaultAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Coins Animations */
+.coinsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floatingCoin {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  animation: floatUp 4s linear infinite;
+}
+
+.coinSvg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(220px) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-40px) translateX(var(--drift, 20px)) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Floating coin staggers */
+.coin0 { left: 25%; --drift: -30px; animation-delay: 0s; animation-duration: 3.8s; }
+.coin1 { left: 45%; --drift: 20px; animation-delay: 0.5s; animation-duration: 4.5s; }
+.coin2 { left: 65%; --drift: -15px; animation-delay: 1s; animation-duration: 4s; }
+.coin3 { left: 35%; --drift: 25px; animation-delay: 1.5s; animation-duration: 5s; }
+.coin4 { left: 75%; --drift: -35px; animation-delay: 2s; animation-duration: 4.2s; }
+.coin5 { left: 55%; --drift: 15px; animation-delay: 2.5s; animation-duration: 4.7s; }
+.coin6 { left: 15%; --drift: 30px; animation-delay: 3s; animation-duration: 3.9s; }
+.coin7 { left: 80%; --drift: -20px; animation-delay: 3.5s; animation-duration: 4.4s; }
+
+/* Depositing Coin */
+.depositingCoin {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 50%;
+  margin-left: -6px;
+  bottom: 40px;
+  opacity: 0;
+  animation: depositAnim 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes depositAnim {
+  0% {
+    transform: translateY(40px) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-80px) scale(1);
+  }
+  100% {
+    transform: translateY(-110px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+/* Right Column: Tension Copy */
+.copyColumn {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.eyebrow {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--color-text-muted);
+  font-size: 12px;
+  color: var(--color-accent-warning);
   letter-spacing: 0.15em;
   font-weight: 600;
 }
 
 .counter {
   font-family: 'DM Mono', monospace;
-  font-size: clamp(56px, 8vw, 96px);
+  font-size: clamp(56px, 7vw, 96px);
   color: var(--color-accent-warning);
   font-weight: 400;
   line-height: 1;
+  transition: transform 150ms ease;
+}
+
+.pulseText {
+  animation: pulseTextAnim 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pulseTextAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .unitLabel {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   color: var(--color-text-secondary);
-  font-weight: 500;
-  margin-top: -12px;
+  margin-top: -10px;
 }
 
-.pillsRow {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  margin: 12px 0;
-}
-
-.pill {
-  background-color: var(--color-bg-inset);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 4px;
-  padding: 12px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 200px;
-  text-align: center;
-}
-
-.pillBig {
-  font-family: 'DM Mono', monospace;
+.tensionText {
+  font-family: 'Inter', sans-serif;
   font-size: 18px;
   color: var(--color-text-primary);
+  line-height: 1.4;
+  max-width: 320px;
   font-weight: 500;
 }
 
-.pillSmall {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-inset);
+  padding: 8px 16px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.statItem {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.statVal {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.statDesc {
   color: var(--color-text-muted);
 }
 
-.copy {
+.statDivider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--color-border-subtle);
+}
+
+.ctaWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ctaLabel {
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--color-text-secondary);
-  line-height: 1.65;
-  max-width: 560px;
+}
+
+/* SECOND VAULT TEASER */
+.teaserSection {
+  width: 100%;
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: 64px;
+}
+
+.teaserContainer {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.teaserGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.teaserVaultColumn {
+  grid-column: span 4;
+  display: flex;
+  justify-content: center;
+}
+
+.teaserVisualWrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vaultContainerTeaser {
+  width: 130px;
+  height: 130px;
+  position: relative;
+  z-index: 2;
+}
+
+.vaultSvgTeaser {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.pulseTeaser {
+  animation: pulseTeaserAnim 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pulseTeaserAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.floatingCoinTeaser {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  animation: floatUpTeaser 3.8s linear infinite;
+}
+
+@keyframes floatUpTeaser {
+  0% {
+    transform: translateY(140px) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  20% { opacity: 0.4; }
+  80% { opacity: 0.4; }
+  100% {
+    transform: translateY(-20px) translateX(var(--drift, 15px)) scale(1);
+    opacity: 0;
+  }
+}
+
+.teaserCoin0 { left: 20%; --drift: -20px; animation-delay: 0s; }
+.teaserCoin1 { left: 50%; --drift: 15px; animation-delay: 0.8s; }
+.teaserCoin2 { left: 75%; --drift: -10px; animation-delay: 1.6s; }
+.teaserCoin3 { left: 35%; --drift: 25px; animation-delay: 2.4s; }
+.teaserCoin4 { left: 60%; --drift: -15px; animation-delay: 3.2s; }
+
+.depositingCoinTeaser {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  margin-left: -5px;
+  bottom: 25px;
+  opacity: 0;
+  animation: depositTeaserAnim 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes depositTeaserAnim {
+  0% {
+    transform: translateY(30px) scale(0.5);
+    opacity: 0;
+  }
+  30% { opacity: 1; }
+  80% {
+    opacity: 1;
+    transform: translateY(-50px) scale(1);
+  }
+  100% {
+    transform: translateY(-70px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+.teaserInfoColumn {
+  grid-column: span 8;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.eyebrowStable {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-accent-primary);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.teaserCounter {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--color-accent-primary);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.teaserUnitLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: -6px;
+}
+
+.teaserStats {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  display: flex;
+  gap: 8px;
+}
+
+.teaserDot {
+  color: var(--color-border-active);
+}
+
+@media (max-width: 968px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .vaultColumn {
+    grid-column: span 12;
+  }
+  .copyColumn {
+    grid-column: span 12;
+    align-items: center;
+    text-align: center;
+  }
+  .statsRow {
+    justify-content: center;
+  }
+  .teaserGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .teaserVaultColumn {
+    grid-column: span 12;
+  }
+  .teaserInfoColumn {
+    grid-column: span 12;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatingCoin, .depositingCoin, .floatingCoinTeaser, .depositingCoinTeaser {
+    animation: none !important;
+    opacity: 0.3 !important;
+  }
+  .pulse, .pulseTeaser, .pulseText {
+    animation: none !important;
+  }
 }
