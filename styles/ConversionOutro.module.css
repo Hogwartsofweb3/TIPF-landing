@@ -5,54 +5,6 @@
   overflow: hidden;
 }
 
-.tickerContainer {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  opacity: 0.10; /* 10% opacity */
-  pointer-events: none;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 80px;
-  overflow: hidden;
-  contain: strict;
-}
-
-.tickerRowRight, .tickerRowLeft {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.tickerContentRight {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--color-text-muted);
-  animation: scrollRight 40s linear infinite;
-}
-
-.tickerContentLeft {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--color-text-muted);
-  animation: scrollLeft 32s linear infinite;
-}
-
-@keyframes scrollRight {
-  0% { transform: translate3d(-50%, 0, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-
-@keyframes scrollLeft {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
-}
-
 .container {
   max-width: 640px;
   margin: 0 auto;
@@ -160,8 +112,4 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tickerContentRight, .tickerContentLeft {
-    animation: none;
-  }
-}
+

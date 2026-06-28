@@ -7,6 +7,7 @@ import TokenomicsFlow from "../components/TokenomicsFlow";
 import DualPools from "../components/DualPools";
 import Motherlode from "../components/Motherlode";
 import ConversionOutro from "../components/ConversionOutro";
+import LiveFeed from "../components/LiveFeed";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <DualPools />
       <Motherlode />
       <ConversionOutro />
+      <LiveFeed />
     </main>
   );
 }

@@ -4,20 +4,6 @@ import styles from '../styles/ConversionOutro.module.css';
 export default function ConversionOutro() {
   return (
     <section className={styles.section}>
-      {/* Background Ticker */}
-      <div className={styles.tickerContainer}>
-        <div className={styles.tickerRowRight}>
-          <div className={styles.tickerContentRight}>
-            {"ROUND #79821 * 5x8mQ2rPkL9nVw...a3f8c912 * VERIFIED * ".repeat(15)}
-          </div>
-        </div>
-        <div className={styles.tickerRowLeft}>
-          <div className={styles.tickerContentLeft}>
-            {"BLOCK 14 * MOTHERLODE +20 TIPF * ROUND #79820 * ".repeat(15)}
-          </div>
-        </div>
-      </div>
-
       <div className={styles.container}>
         <h2 className={styles.headline}>The proof is on-chain.<br />The round is live.</h2>
         
