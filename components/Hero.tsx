@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../styles/Hero.module.css';
+import VrfSignature from './VrfSignature';
 
 export default function Hero() {
   const [phase, setPhase] = useState<'FILLING' | 'COUNTDOWN' | 'VRF_FIRES' | 'SETTLEMENT'>('FILLING');
@@ -89,7 +90,7 @@ export default function Hero() {
       
       const winningBlockNumber = winner + 1;
       const solWon = (Math.random() * 1.5 + 0.1).toFixed(2);
-      const txHash = '5xVRf' + Math.random().toString(36).substring(2, 8) + '...mK9a';
+      const txHash = '5xVRf' + Math.random().toString(36).substring(2, 6) + '...' + Math.random().toString(36).substring(2, 6);
       setSettlementDetails(`Block #${winningBlockNumber} · +${solWon} SOL · Round #${roundNumber.toLocaleString()} · ${txHash} ✓`);
 
       phaseTimer = setTimeout(() => {
@@ -106,6 +107,21 @@ export default function Hero() {
       clearInterval(countdownInterval);
     };
   }, [roundNumber]);
+
+  const isAdjacentToWinner = (index: number) => {
+    if (winningBlock === null) return false;
+    const row = Math.floor(index / 5);
+    const col = index % 5;
+    const winRow = Math.floor(winningBlock / 5);
+    const winCol = winningBlock % 5;
+
+    const isUp = row === winRow - 1 && col === winCol;
+    const isDown = row === winRow + 1 && col === winCol;
+    const isLeft = row === winRow && col === winCol - 1;
+    const isRight = row === winRow && col === winCol + 1;
+
+    return isUp || isDown || isLeft || isRight;
+  };
 
   return (
     <section className={styles.heroSection}>
@@ -130,12 +146,15 @@ export default function Hero() {
           {Array.from({ length: 25 }).map((_, i) => {
             const isFilled = filledBlocks.includes(i);
             const isWinner = winningBlock === i;
+            const isAdjacent = isAdjacentToWinner(i);
             const minersCount = blockMiners[i];
 
             let blockClass = styles.block;
             if (phase === 'VRF_FIRES' || phase === 'SETTLEMENT') {
               if (isWinner) {
                 blockClass = `${styles.block} ${styles.winnerBlock}`;
+              } else if (isAdjacent) {
+                blockClass = `${styles.block} ${styles.adjacentWinnerBlock}`;
               } else {
                 blockClass = `${styles.block} ${styles.dimmedBlock}`;
               }
@@ -150,7 +169,7 @@ export default function Hero() {
                     <span className={styles.winnerLabel}>⚡ WINNER</span>
                     {pulseWinner && <div className={styles.ripple}></div>}
                   </div>
-                ) : isFilled ? (
+                ) : isFilled && !isAdjacent ? (
                   <span className={styles.minerCount}>+{minersCount} miner{minersCount > 1 ? 's' : ''}</span>
                 ) : null}
               </div>
@@ -160,7 +179,7 @@ export default function Hero() {
 
         {phase === 'SETTLEMENT' && settlementDetails && (
           <div className={styles.settlementLog}>
-            {settlementDetails}
+            <VrfSignature signature={settlementDetails} />
           </div>
         )}
       </div>
@@ -189,7 +208,7 @@ export default function Hero() {
               href="https://tipf.ai/mine" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="btn-primary"
+              className={`${styles.heroBtnPrimary} btn-primary`}
             >
               Enter the Arena →
             </a>

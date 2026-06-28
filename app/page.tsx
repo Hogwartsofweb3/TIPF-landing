@@ -1,4 +1,5 @@
 import Nav from "../components/Nav";
+import ScrollProgress from "../components/ScrollProgress";
 import Hero from "../components/Hero";
 import ThreePillars from "../components/ThreePillars";
 import SimulatedRound from "../components/SimulatedRound";
@@ -13,6 +14,7 @@ import LiveFeed from "../components/LiveFeed";
 export default function Home() {
   return (
     <main>
+      <ScrollProgress />
       <Nav />
       <Hero />
       <ThreePillars />

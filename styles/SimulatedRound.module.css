@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Added relative positioning for sound toggle locking */
 }
 
 .container {
@@ -17,6 +18,31 @@
   flex-direction: column;
   align-items: center;
   gap: 28px;
+}
+
+.soundControl {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+}
+
+.soundBtn {
+  background: transparent;
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.soundBtn:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-active);
+  background-color: var(--color-bg-inset);
 }
 
 .toggleRow {
@@ -233,5 +259,21 @@
   100% {
     transform: translate3d(var(--x), var(--y), 0) rotate(var(--r));
     opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .soundControl {
+    top: 12px;
+    right: 12px;
+  }
+  .toggleRow {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .toggleBtn {
+    width: 100%;
+    text-align: center;
   }
 }

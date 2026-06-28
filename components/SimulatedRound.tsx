@@ -21,8 +21,51 @@ export default function SimulatedRound() {
   const [gameResult, setGameResult] = useState<'win' | 'lose' | null>(null);
   const [confetti, setConfetti] = useState<ConfettiParticle[]>([]);
   const [winAmount, setWinAmount] = useState('');
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   const maxSelections = pool === 'aggressive' ? 3 : 5;
+
+  // Initialize sound settings
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = sessionStorage.getItem('tipf_sound_enabled');
+      setSoundEnabled(stored === 'true');
+    }
+  }, []);
+
+  const toggleSound = () => {
+    const nextVal = !soundEnabled;
+    setSoundEnabled(nextVal);
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('tipf_sound_enabled', String(nextVal));
+    }
+  };
+
+  const playHoverSound = () => {
+    if (!soundEnabled) return;
+    try {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContextClass) return;
+      const ctx = new AudioContextClass();
+      
+      const osc = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      
+      gainNode.gain.setValueAtTime(0.05, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.04); // 40ms decay
+      
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      osc.start();
+      osc.stop(ctx.currentTime + 0.04);
+    } catch (err) {
+      console.warn('Web Audio play prevented or failed', err);
+    }
+  };
 
   // Reset grid when switching pools
   const handlePoolChange = (newPool: 'aggressive' | 'stable') => {
@@ -37,7 +80,6 @@ export default function SimulatedRound() {
       setSelectedBlocks((prev) => prev.filter((i) => i !== index));
     } else {
       if (selectedBlocks.length >= maxSelections) {
-        // FIFO queue: deselect first and append new
         setSelectedBlocks((prev) => [...prev.slice(1), index]);
       } else {
         setSelectedBlocks((prev) => [...prev, index]);
@@ -73,26 +115,20 @@ export default function SimulatedRound() {
   const handleFireVrf = () => {
     if (selectedBlocks.length === 0) return;
 
-    // Step 1: Requesting randomness
     setSequenceStep(1);
     setVrfMessage('Requesting randomness from Magicblock oracle...');
 
-    // Step 2: Proof generated (800ms)
     setTimeout(() => {
       setSequenceStep(2);
       setVrfMessage('Proof generated · Curve25519 · RFC 9381');
-    }, 800000 / 1000); // 800ms
+    }, 800);
 
-    // Step 3: VRF Fires (1400ms)
     setTimeout(() => {
       setSequenceStep(3);
       
       const allIndices = Array.from({ length: 25 }, (_, i) => i);
 
       if (pool === 'aggressive') {
-        // Aggressive Pool logic: 1 winner out of 25.
-        // We do a weighted random: 40% chance of choosing one of user's selected blocks
-        // 60% chance of choosing from all 25 blocks.
         const isWeightedWin = Math.random() < 0.4;
         let chosenWinner: number;
 
@@ -106,7 +142,7 @@ export default function SimulatedRound() {
 
         if (selectedBlocks.includes(chosenWinner)) {
           setGameResult('win');
-          const solWin = (Math.random() * 10 + 2).toFixed(2); // Higher payout for Aggressive
+          const solWin = (Math.random() * 10 + 2).toFixed(2);
           setWinAmount(solWin);
           triggerConfetti();
           setVrfMessage(`+${solWin} SOL · Block #${chosenWinner + 1} · VRF verified ✓`);
@@ -115,10 +151,6 @@ export default function SimulatedRound() {
           setVrfMessage(`Block #${chosenWinner + 1} wins · Your blocks earn TIPF rewards`);
         }
       } else {
-        // Stable Pool logic: 24 winners, 1 single loser.
-        // User wins if none of their selected blocks is the single loser block.
-        // To make selected blocks almost always win, we set a 95% probability
-        // that the single loser block is chosen from the non-selected blocks.
         let chosenLoser: number;
         const nonSelected = allIndices.filter(i => !selectedBlocks.includes(i));
         
@@ -133,7 +165,7 @@ export default function SimulatedRound() {
         const isUserLoser = selectedBlocks.includes(chosenLoser);
         if (!isUserLoser) {
           setGameResult('win');
-          const solWin = (Math.random() * 0.15 + 0.02).toFixed(3); // Consistent small rewards
+          const solWin = (Math.random() * 0.15 + 0.02).toFixed(3);
           setWinAmount(solWin);
           triggerConfetti();
           setVrfMessage(`+${solWin} SOL · Stable compound successful · VRF verified ✓`);
@@ -144,7 +176,6 @@ export default function SimulatedRound() {
       }
     }, 1400);
 
-    // Step 4: Outro CTA (2400ms)
     setTimeout(() => {
       setSequenceStep(4);
     }, 2400);
@@ -152,6 +183,13 @@ export default function SimulatedRound() {
 
   return (
     <section className={styles.section}>
+      {/* Sound Settings Toggle Button */}
+      <div className={styles.soundControl}>
+        <button onClick={toggleSound} className={styles.soundBtn}>
+          {soundEnabled ? '🔊 Sound on' : '🔇 Sound off'}
+        </button>
+      </div>
+
       <div className={styles.container}>
         {/* Pool Toggle */}
         <div className={styles.toggleRow}>
@@ -193,7 +231,6 @@ export default function SimulatedRound() {
                     blockClass = `${styles.block} ${styles.dimmed}`;
                   }
                 } else {
-                  // Stable Pool
                   if (isStableLoser) {
                     blockClass = `${styles.block} ${styles.stableLoserBlock}`;
                   } else if (isSelected) {
@@ -211,13 +248,12 @@ export default function SimulatedRound() {
                   key={i} 
                   className={blockClass} 
                   onClick={() => handleBlockClick(i)}
+                  onMouseEnter={playHoverSound}
                 >
-                  {/* Selected Dot Indicator */}
                   {isSelected && sequenceStep < 3 && (
                     <span className={styles.dotIndicator}></span>
                   )}
 
-                  {/* WIN/LOSE text indicator */}
                   {sequenceStep >= 3 && (
                     <>
                       {pool === 'aggressive' && isAggressiveWinner && isSelected && (
@@ -235,7 +271,6 @@ export default function SimulatedRound() {
                     </>
                   )}
 
-                  {/* Confetti Explosion source on winning block */}
                   {gameResult === 'win' && isSelected && sequenceStep >= 3 && (
                     <div className={styles.confettiSource}>
                       {confetti.map((c) => (
@@ -270,7 +305,6 @@ export default function SimulatedRound() {
             </button>
           )}
 
-          {/* Firing Status / Output messages */}
           {sequenceStep > 0 && (
             <div className={`${styles.statusMessage} ${sequenceStep >= 3 && gameResult === 'win' ? styles.statusWin : ''}`}>
               {vrfMessage}

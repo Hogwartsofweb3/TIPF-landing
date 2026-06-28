@@ -25,3 +25,39 @@
   color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
+
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.roundCounter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-accent-proof);
+}
+
+.pulseDot {
+  animation: pulseDotOpacity 2s infinite;
+}
+
+@keyframes pulseDotOpacity {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.roundText {
+  color: var(--color-accent-proof);
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .roundCounter {
+    display: none; /* Hide round counter on very small screens to prevent nav overlap */
+  }
+}

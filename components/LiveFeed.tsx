@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/LiveFeed.module.css';
+import VrfSignature from './VrfSignature';
 
 interface FeedItem {
   id: string;
@@ -165,7 +166,7 @@ export default function LiveFeed() {
               </div>
 
               <div className={styles.itemBottom}>
-                {item.hash}
+                <VrfSignature signature={item.hash} />
               </div>
             </div>
           );

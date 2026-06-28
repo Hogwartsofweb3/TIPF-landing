@@ -242,7 +242,7 @@ export default function Motherlode() {
             {/* Stable Vault Info (Compact) */}
             <div className={styles.teaserInfoColumn}>
               <span className={styles.eyebrowStable}>MOTHERLODE VAULT · STABLE POOL</span>
-              <h3 className={`${styles.teaserCounter} ${pulseStableCounter ? styles.pulseText : ''}`}>
+              <h3 className={`${styles.teaserCounter} ${pulseStableCounter ? styles.pulseStableText : ''}`}>
                 {stableCount.toLocaleString()}
               </h3>
               <p className={styles.teaserUnitLabel}>TIPF locked inside</p>
