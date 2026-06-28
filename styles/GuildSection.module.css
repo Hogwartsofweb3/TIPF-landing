@@ -1,0 +1,348 @@
+.section {
+  width: 100%;
+  padding: 100px 24px;
+  background-color: var(--color-bg-void);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.header {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--color-accent-proof);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.heading {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-display-md);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  max-width: 500px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 48px;
+}
+
+/* Left Column: Leaderboard */
+.leaderboardCard {
+  grid-column: span 6;
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cardHeader {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-weight: 600;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding: 16px 24px;
+  background-color: rgba(14, 18, 24, 0.2);
+}
+
+.rankCol {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-accent-proof);
+  width: 48px;
+  border-right: 1px solid var(--color-border-subtle);
+  margin-right: 16px;
+}
+
+.nameCol {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.guildMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guildName {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.levelBadge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+  background-color: rgba(155, 92, 246, 0.1);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.xpBarContainer {
+  width: 100%;
+  max-width: 160px;
+  height: 4px;
+  background-color: var(--color-bg-inset);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.xpBar {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.xpText {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.multiplierCol {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent-proof);
+  text-align: right;
+  min-width: 40px;
+}
+
+/* Blurred Row Treatment */
+.blurredRowWrapper {
+  position: relative;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.blurredRowWrapper .row {
+  border-bottom: none;
+}
+
+.blurredRow {
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.blurredOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(14, 18, 24, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.blurredLink {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.blurredLink:hover {
+  color: var(--color-text-primary);
+}
+
+.cardFooter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  padding: 16px 24px;
+  background-color: rgba(14, 18, 24, 0.4);
+}
+
+/* Right Column: Stepper Progression */
+.stepperContainer {
+  grid-column: span 6;
+  position: relative;
+  padding-left: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.stepConnectorLine {
+  position: absolute;
+  left: 8px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background-color: var(--color-border-subtle);
+  z-index: 1;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  z-index: 2;
+}
+
+.step {
+  position: relative;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stepNode {
+  position: absolute;
+  left: -21px; /* Center alignment with the connector line */
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent-primary);
+  border: 2px solid var(--color-bg-void);
+  box-shadow: 0 0 0 2px var(--color-bg-void);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-border-subtle);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.stepThreshold {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.stepMultiplier {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-accent-proof);
+}
+
+.stepBenefit {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* Gold Step V5 */
+.goldStep {
+  border-left: 2px solid var(--color-accent-warning);
+  padding-left: 22px; /* Adjusted to account for the border */
+  margin-left: -2px;
+  background-color: rgba(245, 158, 11, 0.02);
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.goldNode {
+  background-color: var(--color-accent-warning);
+}
+
+.goldPill {
+  color: var(--color-accent-warning);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.goldMultiplier {
+  color: var(--color-accent-warning);
+  font-weight: 600;
+}
+
+/* Bottom CTA Strip */
+.ctaStrip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: 48px;
+}
+
+.ctaSubtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 968px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .leaderboardCard {
+    grid-column: span 12;
+  }
+  .stepperContainer {
+    grid-column: span 12;
+    padding-left: 20px;
+  }
+}
