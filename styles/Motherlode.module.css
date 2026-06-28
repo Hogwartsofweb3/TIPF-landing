@@ -1,0 +1,84 @@
+.section {
+  width: 100%;
+  padding: 80px 24px;
+  background-color: var(--color-bg-panel);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: none;
+  border-right: none;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.counter {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(56px, 8vw, 96px);
+  color: var(--color-accent-warning);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.unitLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin-top: -12px;
+}
+
+.pillsRow {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.pill {
+  background-color: var(--color-bg-inset);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.pillBig {
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.pillSmall {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.copy {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  max-width: 560px;
+}

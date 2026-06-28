@@ -1,0 +1,192 @@
+.section {
+  width: 100%;
+  padding: 100px 24px;
+  background-color: var(--color-bg-void);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.header {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heading {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--text-display-md);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.diagramColumn {
+  grid-column: span 7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svgFlow {
+  width: 100%;
+  height: auto;
+  max-width: 540px;
+}
+
+.svgNode {
+  fill: var(--color-bg-panel);
+  stroke: var(--color-border-subtle);
+  stroke-width: 1px;
+}
+
+.svgNodeBurn {
+  fill: rgba(239, 68, 68, 0.04);
+  stroke: rgba(239, 68, 68, 0.3);
+  stroke-width: 1px;
+}
+
+.svgNodeStakers {
+  fill: rgba(20, 193, 132, 0.04);
+  stroke: rgba(20, 193, 132, 0.3);
+  stroke-width: 1px;
+}
+
+.svgText {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  fill: var(--color-text-secondary);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.svgTextBurnHead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--color-accent-danger);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.svgTextStakersHead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--color-accent-proof);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.svgTextSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  fill: var(--color-text-muted);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.svgPath {
+  stroke: var(--color-border-subtle);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Scroll-triggered stroke animation */
+.diagramColumn .svgPath {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.runAnimation .svgPath {
+  stroke-dashoffset: 0;
+  stroke: var(--color-border-active);
+}
+
+.calloutPanel {
+  grid-column: span 5;
+  background-color: var(--color-bg-inset);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(26, 34, 48, 0.5);
+  padding-bottom: 12px;
+}
+
+.panelRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.panelLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.panelValue {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.panelValueNone {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--color-accent-proof);
+  font-weight: 600;
+}
+
+@media (max-width: 968px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .diagramColumn {
+    grid-column: span 12;
+  }
+  .calloutPanel {
+    grid-column: span 12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagramColumn .svgPath {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+}
